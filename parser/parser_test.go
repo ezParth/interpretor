@@ -9,16 +9,16 @@ import (
 )
 
 func TestLetStatements(t *testing.T) {
-	input := `
-	let x = 5;
+	input := `let x = 5;
 	let y = 10;
 	let foobar = 838383;
 	`
 
 	l := lexer.New(input)
 	p := parser.New(l)
-
+	t.Log("p: ", p)
 	program := p.ParseProgram()
+	t.Log("program: ", program)
 	if program == nil {
 		t.Fatalf("ParseProgram() returned nil")
 	}
@@ -38,6 +38,7 @@ func TestLetStatements(t *testing.T) {
 
 	for i, tt := range tests {
 		stmt := program.Statements[i]
+		t.Log(i, ". ", stmt, " tt: ", tt.expectedIdentifier)
 		if !testLetStatement(t, stmt, tt.expectedIdentifier) {
 			return
 		}
@@ -45,11 +46,12 @@ func TestLetStatements(t *testing.T) {
 }
 
 func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
+	t.Log("this is printing 2 ************************************: ", s, "\n")
 	if s.TokenLiteral() != "let" {
 		t.Errorf("s.TokenLiteral not 'let'. got=%q", s.TokenLiteral())
 		return false
 	}
-
+	t.Log("this is printing 2 ************************************\n")
 	letStmt, ok := s.(*ast.LetStatement)
 	if !ok {
 		t.Errorf("s not *ast.LetStatement. got=%T", s)
