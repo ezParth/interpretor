@@ -24,6 +24,7 @@ func LookupIndent(ident string) TokenType {
 	return IDENT
 }
 
+// Token Type
 const (
 	ILLEGAL = "ILLEGAL"
 	EOF     = "EOF"

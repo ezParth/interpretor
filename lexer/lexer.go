@@ -1,8 +1,6 @@
 package lexer
 
 import (
-	"fmt"
-
 	"github.com/ezParth/interpretor/token"
 )
 
@@ -105,7 +103,7 @@ func (l *Lexer) readChar() {
 }
 
 func (l *Lexer) peekChar() byte {
-	fmt.Println("input: ", l.input)
+	// fmt.Println("input: ", l.input, " l: ", l)
 	if l.readPosition >= len(l.input) {
 		return 0
 	} else {
