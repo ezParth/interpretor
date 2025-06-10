@@ -20,6 +20,14 @@ type Program struct {
 	Statements []Statement
 }
 
+type ReturnStatement struct {
+	Token       token.Token // 'return' token will be stored here => It will look like { RETURN return }
+	ReturnValue Expression  // value that is being retured
+}
+
+func (rs *ReturnStatement) statementNode()       {}
+func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal }
+
 func (p *Program) TokenLiteral() string {
 	if len(p.Statements) > 0 {
 		return p.Statements[0].TokenLiteral()
