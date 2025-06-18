@@ -437,10 +437,7 @@ func TestCallExpressionParsing(t *testing.T) {
 	input := "add(1, 2 * 3, 4 + 5);"
 
 	l := lexer.New(input)
-	fmt.Println("l: ", l)
-	t.Log("l: ", l)
 	p := parser.New(l)
-	fmt.Println("p: ", p)
 	program := p.ParseProgram()
 	checkParserErrors(t, p)
 
