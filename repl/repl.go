@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/ezParth/interpretor/evaluator"
 	"github.com/ezParth/interpretor/lexer"
 	"github.com/ezParth/interpretor/parser"
 )
 
 const PROMPT = ">> "
 
-func Start(in io.Reader, out io.Writer) {
+func Start2(in io.Reader, out io.Writer) {
 	fmt.Println(MONKEY_FACE)
 	scanner := bufio.NewScanner(in)
 
@@ -56,5 +57,30 @@ func printParserErrors(out io.Writer, errors []string) {
 	io.WriteString(out, " parser errors:\n")
 	for _, msg := range errors {
 		io.WriteString(out, "\t"+msg+"\n")
+	}
+}
+
+func Start(in io.Reader, out io.Writer) {
+	scanner := bufio.NewScanner(in)
+	for {
+		fmt.Printf(PROMPT)
+		scanned := scanner.Scan()
+		if !scanned {
+			return
+		}
+		line := scanner.Text()
+		l := lexer.New(line)
+		p := parser.New(l)
+		program := p.ParseProgram()
+		if len(p.Errors()) != 0 {
+			printParserErrors(out, p.Errors())
+			continue
+		}
+		evaluated := evaluator.Eval(program)
+		if evaluated != nil {
+			io.WriteString(out, evaluated.Inspect())
+			// io.WriteString(out, string(evaluated.Type()))
+			io.WriteString(out, "\n")
+		}
 	}
 }
